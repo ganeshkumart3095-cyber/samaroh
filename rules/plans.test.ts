@@ -5,7 +5,14 @@ import {
   type RulesTestEnvironment,
 } from "@firebase/rules-unit-testing";
 import * as fs from "firebase/firestore";
-import { doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { readFileSync } from "node:fs";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { assemblePlan } from "@/core/assemble";
@@ -20,11 +27,18 @@ const plan = assemblePlan(weddingBrief, templateBlueprint(weddingBrief), {
   today: TODAY,
   now: new Date("2026-10-20T10:00:00Z"),
 });
-const record = toRecord("owner", plan, ["aunt@example.com"], ["cousin@example.com"]);
+const record = toRecord(
+  "owner",
+  plan,
+  ["aunt@example.com"],
+  ["cousin@example.com"],
+);
 const data = record.data;
 
 const as = (uid: string, email?: string) =>
-  env.authenticatedContext(uid, email ? { email, email_verified: true } : {}).firestore();
+  env
+    .authenticatedContext(uid, email ? { email, email_verified: true } : {})
+    .firestore();
 
 beforeAll(async () => {
   env = await initializeTestEnvironment({
@@ -86,17 +100,25 @@ describe("plans/{planId}", () => {
   });
 
   it("denies anyone who is not owner, editor or viewer (including signed-out)", async () => {
-    await assertFails(getDoc(doc(as("stranger", "stranger@example.com"), "plans/p1")));
-    await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), "plans/p1")));
+    await assertFails(
+      getDoc(doc(as("stranger", "stranger@example.com"), "plans/p1")),
+    );
+    await assertFails(
+      getDoc(doc(env.unauthenticatedContext().firestore(), "plans/p1")),
+    );
   });
 
   it("rejects malformed documents", async () => {
     const db = as("owner");
     await assertFails(updateDoc(doc(db, "plans/p1"), { extra: true }));
     await assertFails(
-      updateDoc(doc(db, "plans/p1"), { data: { ...data, brief: { ...data.brief, guests: 0 } } }),
+      updateDoc(doc(db, "plans/p1"), {
+        data: { ...data, brief: { ...data.brief, guests: 0 } },
+      }),
     );
-    await assertFails(updateDoc(doc(db, "plans/p1"), { data: { ...data, id: "other" } }));
+    await assertFails(
+      updateDoc(doc(db, "plans/p1"), { data: { ...data, id: "other" } }),
+    );
   });
 
   it("allows the exact queries sync runs, for owner, editor and viewer (mixed-case email)", async () => {
@@ -105,7 +127,9 @@ describe("plans/{planId}", () => {
         .authenticatedContext(uid, email ? { email, email_verified: true } : {})
         .firestore();
       const snaps = await Promise.all(
-        planQueries(fs, db as unknown as fs.Firestore, uid, email).map((q) => getDocs(q)),
+        planQueries(fs, db as unknown as fs.Firestore, uid, email).map((q) =>
+          getDocs(q),
+        ),
       );
       return snaps.reduce((n, s) => n + s.size, 0);
     };

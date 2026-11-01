@@ -14,7 +14,11 @@ console.log("==================================================");
 
 const browser = await chromium.launch({
   headless: true,
-  args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"],
+  args: [
+    "--use-angle=swiftshader",
+    "--enable-unsafe-swiftshader",
+    "--no-sandbox",
+  ],
 });
 
 const context = await browser.newContext({
@@ -173,12 +177,16 @@ try {
   // 11. Interactive Planning Assistant
   // ----------------------------------------------------
   console.log("11. Opening Interactive Planning Assistant Drawer...");
-  const assistantBtn = page.getByRole("button", { name: /ask assistant|assistant/i });
+  const assistantBtn = page.getByRole("button", {
+    name: /ask assistant|assistant/i,
+  });
   if (await assistantBtn.isVisible()) {
     await assistantBtn.click();
     await delay(1500);
 
-    const suggestBtn = page.getByRole("button", { name: /find savings|budget|ideas/i }).first();
+    const suggestBtn = page
+      .getByRole("button", { name: /find savings|budget|ideas/i })
+      .first();
     if (await suggestBtn.isVisible()) {
       console.log("    Triggering intelligent query...");
       await suggestBtn.click();
@@ -195,7 +203,9 @@ try {
   // ----------------------------------------------------
   // 12. Multilingual Localization Switching
   // ----------------------------------------------------
-  console.log("12. Demonstrating Multilingual Localization (Hindi, Tamil, Telugu)...");
+  console.log(
+    "12. Demonstrating Multilingual Localization (Hindi, Tamil, Telugu)...",
+  );
   const langSelect = page.getByRole("combobox", { name: /language/i });
   if (await langSelect.isVisible()) {
     // Switch to Hindi
@@ -246,4 +256,3 @@ try {
     }
   }
 }
-
