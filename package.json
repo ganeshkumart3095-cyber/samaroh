@@ -1,0 +1,69 @@
+{
+  "name": "samaroh",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Samaroh — Intelligent Indian celebration, wedding, and event planning architecture powered by Google GenAI.",
+  "author": "ganeshkumart3095-cyber",
+  "license": "MIT",
+  "homepage": "https://samaroh.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ganeshkumart3095-cyber/samaroh.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ganeshkumart3095-cyber/samaroh/issues"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "postbuild": "node scripts/copy-static.mjs",
+    "start": "next start",
+    "lint": "eslint --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-samaroh \"vitest run --config vitest.rules.config.mts\"",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@google/genai": "^2.30.0",
+    "@react-three/fiber": "^9.8.2",
+    "firebase": "^13.0.0",
+    "motion": "^14.4.0",
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.186.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@firebase/rules-unit-testing": "^6.0.0",
+    "@playwright/test": "^1.64.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.2",
+    "firebase-tools": "^15.34.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  },
+  "overrides": {
+    "body-parser": "^2.4.0",
+    "@grpc/grpc-js": "^1.14.6"
+  }
+}
